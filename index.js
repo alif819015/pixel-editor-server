@@ -23,6 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const usersCollection = client.db("pixelEditor").collection("users");
+    const feedbackCollection = client.db("pixelEditor").collection("feedback");
 
     //users related api's.......................
     // .......................................
@@ -64,6 +65,22 @@ async function run() {
         },
       };
       const result = await usersCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
+
+
+    //feedback api
+  //add feedback
+    app.post("/feedback", async (req, res) => {
+      const item = req.body;
+      const result = await feedbackCollection.insertOne(item);
+      res.send(result);
+    });
+
+    //get all feedback
+    app.get("/feedback", async (req, res) => {
+      const result = await feedbackCollection.find().toArray();
       res.send(result);
     });
 
