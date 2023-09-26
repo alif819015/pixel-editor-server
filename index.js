@@ -8,6 +8,10 @@ const port = process.env.PORT || 5000;
 // middle ware
 app.use(cors());
 app.use(express.json());
+=======
+
+const blog = require('./data/blog.json');
+
 
 const uri = `mongodb+srv://${process.env.PIXEL_EDITOR_USER}:${process.env.PIXEL_EDITOR_PASS}@cluster0.08jlhdc.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -101,6 +105,18 @@ run().catch(console.dir);
 app.get("/", (req, res) => {
   res.send("Pixel editor starts editing");
 });
+
+// blog 
+app.get('/blog', (req, res)=>{
+    res.send(blog);
+})
+
+app.get('/blog/:id', (req, res) => {
+    const id = req.params.id;
+    // console.log(id)
+    const selectBlog = blog.find(c => c.id === id);
+    res.send(selectBlog);
+  })
 
 app.listen(port, () => {
   console.log(`Pixel editor starts editing on port ${port}`);
