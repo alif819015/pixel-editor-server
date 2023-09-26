@@ -3,6 +3,14 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config()
 const app = express();
+
+const http = require("http");
+const socketIo = require("socket.io");
+const server = http.createServer(app);
+const io = socketIo(server);
+const path = require('path');
+
+
 const port = process.env.PORT || 5000;
 
 
@@ -10,6 +18,37 @@ const port = process.env.PORT || 5000;
 app.use(cors())
 app.use(express.json())
 
+app.use(express.static("../pixel-editor/dist"))
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../pixel-editor', 'dist', 'index.html'))
+})
+
+io.on('connection', function (socket) {
+    console.log('new user connected');
+
+    socket.on('chat', (msg) => {
+        io.emit('chatShow', msg)
+    })
+})
+
+io.on("connection", (socket) => {
+    console.log("User connected:");
+
+    socket.on("imageUpdate", (updatedState) => {
+        io.emit("imageUpdate", updatedState);
+    });
+
+    // Update the selectedImageUpdate event handler
+    socket.on("selectedImageUpdate", (imageUrl) => {
+        socket.broadcast.emit("collSelectedImageUpdate", imageUrl);
+    });
+
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected:");
+    });
+});
 
 
 const uri = `mongodb+srv://${process.env.PIXEL_EDITOR_USER}:${process.env.PIXEL_EDITOR_PASS}@cluster0.08jlhdc.mongodb.net/?retryWrites=true&w=majority`;
