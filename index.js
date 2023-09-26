@@ -73,19 +73,19 @@ async function run() {
 
 
 
-        //feedback api
-        //add feedback
-        app.post("/feedback", async (req, res) => {
-            const item = req.body;
-            const result = await feedbackCollection.insertOne(item);
-            res.send(result);
-        });
+        // //feedback api
+        // //add feedback
+        // app.post("/feedback", async (req, res) => {
+        //     const item = req.body;
+        //     const result = await feedbackCollection.insertOne(item);
+        //     res.send(result);
+        // });
 
-        //get all feedback
-        app.get("/feedback", async (req, res) => {
-            const result = await feedbackCollection.find().toArray();
-            res.send(result);
-        });
+        // //get all feedback
+        // app.get("/feedback", async (req, res) => {
+        //     const result = await feedbackCollection.find().toArray();
+        //     res.send(result);
+        // });
 
         // Connect the client to the server	(optional starting in v4.7)
         // await client.connect();
