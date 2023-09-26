@@ -24,6 +24,7 @@ app.use(express.json())
 
 app.use(express.static("../pixel-editor/dist"))
 
+
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../pixel-editor', 'dist', 'index.html'))
 })
@@ -57,6 +58,7 @@ const blog = require('./data/blog.json');
 
 
 const uri = `mongodb+srv://${process.env.PIXEL_EDITOR_USER}:${process.env.PIXEL_EDITOR_PASS}@cluster0.08jlhdc.mongodb.net/?retryWrites=true&w=majority`;
+
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -115,21 +117,6 @@ async function run() {
             res.send(result);
         });
 
-
-
-        //feedback api
-        //add feedback
-        app.post("/feedback", async (req, res) => {
-            const item = req.body;
-            const result = await feedbackCollection.insertOne(item);
-            res.send(result);
-        });
-
-        //get all feedback
-        app.get("/feedback", async (req, res) => {
-            const result = await feedbackCollection.find().toArray();
-            res.send(result);
-        });
 
         // Connect the client to the server	(optional starting in v4.7)
         // await client.connect();
