@@ -22,38 +22,38 @@ app.use(express.json());
 app.use(cors())
 app.use(express.json())
 
-app.use(express.static("../pixel-editor/dist"))
+// app.use(express.static("../pixel-editor/dist"))
 
 
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../pixel-editor', 'dist', 'index.html'))
-})
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, '../pixel-editor', 'dist', 'index.html'))
+// })
 
-io.on('connection', function (socket) {
-    console.log('new user connected');
+// io.on('connection', function (socket) {
+//     console.log('new user connected');
 
-    socket.on('chat', (msg) => {
-        io.emit('chatShow', msg)
-    })
-})
+//     socket.on('chat', (msg) => {
+//         io.emit('chatShow', msg)
+//     })
+// })
 
-io.on("connection", (socket) => {
-    console.log("User connected:");
+// io.on("connection", (socket) => {
+//     console.log("User connected:");
 
-    socket.on("imageUpdate", (updatedState) => {
-        io.emit("imageUpdate", updatedState);
-    });
+//     socket.on("imageUpdate", (updatedState) => {
+//         io.emit("imageUpdate", updatedState);
+//     });
 
-    // Update the selectedImageUpdate event handler
-    socket.on("selectedImageUpdate", (imageUrl) => {
-        socket.broadcast.emit("collSelectedImageUpdate", imageUrl);
-    });
+//     // Update the selectedImageUpdate event handler
+//     socket.on("selectedImageUpdate", (imageUrl) => {
+//         socket.broadcast.emit("collSelectedImageUpdate", imageUrl);
+//     });
 
 
-    socket.on("disconnect", () => {
-        console.log("User disconnected:");
-    });
-});
+//     socket.on("disconnect", () => {
+//         console.log("User disconnected:");
+//     });
+// });
 const blog = require('./data/blog.json');
 
 
